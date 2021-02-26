@@ -5,9 +5,12 @@ from datetime import datetime
 import time
 import argparse
 
-def sniff():
+def sniff(i):
     nearbyDevices = bluetooth.discover_devices(lookup_names=True)
     #print("Found {} devices.".format(len(nearbyDevices)))
+
+    found = False
+    i += 1
 
     for addr, name in nearbyDevices:
         #print("  {} - {}".format(addr, name))
@@ -21,11 +24,11 @@ def sniff():
     dateTime = datetime.now()
 
     if found:
-        print(dateTime, ": ", targetDevice, " detected.")
-        log.debug("%s detected", targetDevice)
+        print(dateTime, ": Iteration:", i, targetDevice, " detected.")
+        log.debug("Iteration:%d %s detected", i, targetDevice)
     else:
-        print(dateTime, ": ", targetDevice, " NOT detected.")
-        log.debug("%s NOT detected", targetDevice) 
+        print(dateTime, ": Iteration:", i, targetDevice, " NOT detected.")
+        log.debug("Iteration:%d %s NOT detected", i, targetDevice) 
 
 if __name__ == '__main__':
     argparser = argparse.ArgumentParser(
@@ -49,5 +52,5 @@ if __name__ == '__main__':
     targetDevice = "Tatskie's iPhone"
 
     for i in range(args.iteration):    
-        sniff()
+        sniff(i)
         time.sleep(args.interval) # there are better ways
